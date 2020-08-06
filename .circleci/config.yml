@@ -20,4 +20,6 @@ workflows:
   build-app:
     jobs:
       - test
-      - deploy
+      - deploy:
+          requires:
+            - test
