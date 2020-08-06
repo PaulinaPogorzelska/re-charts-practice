@@ -5,6 +5,7 @@ jobs:
       - image: circleci/node:latest
     steps:
       - checkout
+      - run: yarn install --frozen-lockfile
       - run: yarn global add netlify-cli
       - run: yarn build
       - run: netlify deploy --dir=build --prod
