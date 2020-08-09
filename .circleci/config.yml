@@ -9,17 +9,17 @@ jobs:
       - run: yarn global add netlify-cli
       - run: yarn build
       - run: yarn deploy
-  test:
-    docker:
-      - image: circleci/node:latest
-    steps:
-      - checkout
-      - run: yarn install --frozen-lockfile
-      - run: yarn test
+  # test:
+  #   docker:
+  #     - image: circleci/node:latest
+  #   steps:
+  #     - checkout
+  #     - run: yarn install --frozen-lockfile
+  #     - run: yarn test
 workflows:
   build-app:
     jobs:
-      - test
+      # - test
       - deploy:
           requires:
             - test
