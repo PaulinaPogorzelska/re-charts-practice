@@ -19,7 +19,6 @@ const CoinsList = () => {
 
   const shareCoin = () => {
     window.analytics.track("Share");
-    console.log(1);
     if (navigator.share) {
       navigator
         .share({
@@ -38,7 +37,6 @@ const CoinsList = () => {
     <Box>
       {CoinsStore.coinsList.map((coin) => (
         <Card
-          margin="1rem"
           display="flex"
           flexDirection="column"
           width="80%"

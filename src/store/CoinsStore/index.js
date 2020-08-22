@@ -15,7 +15,7 @@ const CoinsStore = () => ({
       "https://api.coingecko.com/api/v3/search/trending"
     );
     this.coinsList = resp.data.coins;
-    this.coinsList.map((coin) => {
+    this.coinsList.forEach((coin) => {
       this.loadMarketChart(coin.item.id);
     });
   },
@@ -29,10 +29,10 @@ const CoinsStore = () => ({
         },
       }
     );
-    this.coinsList.find((el) => {
+    this.coinsList.forEach((el) => {
       if (el.item.id === id) {
         let preparedChartData = [];
-        resp.data.prices.map((el) => {
+        resp.data.prices.forEach((el) => {
           const date = new Date(el[0]).toString().slice(4, 10);
           preparedChartData.push({ chartDate: date, chartData: el[1] });
         });
