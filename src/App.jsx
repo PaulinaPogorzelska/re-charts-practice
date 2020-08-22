@@ -1,10 +1,13 @@
 import React from "react";
 import Routing from "./Routing";
+import { StoreProvider } from "./store";
 
 function App() {
   return (
     <div className="App">
-      <Routing />
+      <StoreProvider>
+        <Routing />
+      </StoreProvider>
     </div>
   );
 }

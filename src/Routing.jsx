@@ -1,12 +1,10 @@
 import React from "react";
 import { Router } from "@reach/router";
-import SignUpDomain from "./domains/SignUp";
-import LoginDomain from "./domains/Login";
+import CoinsList from "./views/CoinsList";
 
 const Routing = () => (
   <Router>
-    <LoginDomain path="/"></LoginDomain>
-    <SignUpDomain path="/signup"> </SignUpDomain>
+    <CoinsList path="/" />
   </Router>
 );
 
