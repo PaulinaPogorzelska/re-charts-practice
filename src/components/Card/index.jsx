@@ -6,6 +6,7 @@ const Card = styled(Box)`
   border: 1px solid #ccc;
   border-radius: 0.5rem;
   padding: 1rem;
+  background: white;
 `;
 
 export default Card;

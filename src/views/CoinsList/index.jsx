@@ -1,6 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Card } from "../../components";
 import { useStore, useObserver } from "../../store";
+import { ReactComponent as ShareIcon } from "../../assets/share.svg";
+import ShareCoinModal from "./components/ShareCoinModal";
 import {
   AreaChart,
   Area,
@@ -9,46 +11,74 @@ import {
   CartesianGrid,
   XAxis,
 } from "recharts";
+import { Helmet } from "react-helmet";
+
+const useModal = () => {
+  var [isVisible, changeVisibility] = useState(false);
+
+  const toogleModal = () => {
+    changeVisibility(!isVisible);
+  };
+
+  return {
+    isVisible,
+    toogleModal,
+  };
+};
+
+const ShareCoinPost = ({ toogleModal }) => {
+  window.analytics.track("Share");
+  if (navigator.share) {
+    return (
+      <ShareIcon
+        fill="violet"
+        onClick={() => {
+          navigator
+            .share({
+              title: "Share Top Coin",
+              text: "Hi. Check out my fav top coin !",
+              url: "https://top-coins-paulina-pogorzelska.netlify.app/",
+            })
+            .then(() => console.log("Successful share"))
+            .catch((error) => console.log("Error sharing", error));
+        }}
+      />
+    );
+  } else {
+    return <ShareIcon fill="#bbb8e9" onClick={toogleModal} />;
+  }
+};
 
 const CoinsList = () => {
   const { CoinsStore } = useStore();
+  const { isVisible, toogleModal } = useModal();
 
   useEffect(() => {
     CoinsStore.loadCoinsList();
   }, [CoinsStore]);
 
-  const shareCoin = () => {
-    window.analytics.track("Share");
-    if (navigator.share) {
-      navigator
-        .share({
-          title: "lala",
-          text: "lala",
-          url: "https://www.facebook.com/",
-        })
-        .then(() => console.log("Successful share"))
-        .catch((error) => console.log("Error sharing", error));
-    } else {
-      console.log("Web Share API is not supported in your browser.");
-    }
-  };
-
   return useObserver(() => (
     <Box>
+      <Helmet>
+        <title>Trending Coins</title>
+      </Helmet>
       {CoinsStore.coinsList.map((coin) => (
         <Card
           display="flex"
           flexDirection="column"
           width="80%"
           margin="1rem auto"
+          position="relative"
         >
-          <Box display="flex">
-            <img
-              src={`https://assets.coingecko.com${coin.item.thumb}`}
-              alt=""
-            />
-            <Box marginLeft="0.5rem">{coin.item.name}</Box>
-            <Box onClick={shareCoin}>Share</Box>
+          <Box display="flex" justifyContent="space-between">
+            <Box display="flex">
+              <img
+                src={`https://assets.coingecko.com${coin.item.thumb}`}
+                alt=""
+              />
+              <Box marginLeft="0.5rem">{coin.item.name}</Box>
+            </Box>
+            <ShareCoinPost toogleModal={toogleModal} isVisible={isVisible} />
           </Box>
           <ResponsiveContainer width="100%" height={140}>
             <AreaChart
@@ -76,6 +106,7 @@ const CoinsList = () => {
           </ResponsiveContainer>
         </Card>
       ))}
+      {isVisible && <ShareCoinModal toogleModal={toogleModal} />}
     </Box>
   ));
 };
