@@ -3,14 +3,7 @@ import { Box, Card } from "../../components";
 import { useStore, useObserver } from "../../store";
 import { ReactComponent as ShareIcon } from "../../assets/share.svg";
 import ShareCoinModal from "./components/ShareCoinModal";
-import {
-  AreaChart,
-  Area,
-  ResponsiveContainer,
-  Tooltip,
-  CartesianGrid,
-  XAxis,
-} from "recharts";
+import { AreaChart, Area, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 import { Helmet } from "react-helmet";
 
 const useModal = () => {
@@ -51,6 +44,18 @@ const ShareCoinPost = ({ toogleModal }) => {
   }
 };
 
+function CustomTooltip({ payload, label, active }) {
+  if (active && payload) {
+    return (
+      <Card padding="0 1rem">
+        <p>{`${label} : ${payload[0].value.toFixed(5)}€`}</p>
+      </Card>
+    );
+  }
+
+  return null;
+}
+
 const CoinsList = () => {
   const { CoinsStore } = useStore();
   const { isVisible, toogleModal } = useModal();
@@ -71,13 +76,22 @@ const CoinsList = () => {
           width="80%"
           margin="1rem auto"
           position="relative"
+          padding="1rem"
         >
           <Box display="flex" justifyContent="space-between">
-            <Box display="flex">
-              <img
-                src={`https://assets.coingecko.com${coin.item.thumb}`}
-                alt=""
-              />
+            <Box display="flex" alignItems="center">
+              <Card
+                width="2rem"
+                height="2rem"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <img
+                  src={`https://assets.coingecko.com${coin.item.thumb}`}
+                  alt=""
+                />
+              </Card>
               <Box marginLeft="0.5rem">{coin.item.name}</Box>
             </Box>
             <ShareCoinPost toogleModal={toogleModal} isVisible={isVisible} />
@@ -94,9 +108,8 @@ const CoinsList = () => {
                 </linearGradient>
               </defs>
 
-              <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="chartDate"></XAxis>
-              <Tooltip />
+              <Tooltip content={<CustomTooltip />} />
               <Area
                 type="monotone"
                 dataKey="chartData"

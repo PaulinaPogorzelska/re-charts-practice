@@ -5,8 +5,7 @@ const Card = styled(Box)`
   ${boxSystem};
   border: 1px solid #ccc;
   border-radius: 0.5rem;
-  padding: 1rem;
-  background: white;
+  background: rgba(255, 255, 255, 0.5);
 `;
 
 export default Card;

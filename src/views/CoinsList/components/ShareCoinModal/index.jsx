@@ -13,6 +13,7 @@ const ShareCoinModal = ({ toogleModal }) => {
       backgroud="white"
       z-index="1"
       display="flex"
+      padding="0.5rem 1rem"
     >
       <Box>Web Share API is not supported in your browser.</Box>
       <CrossIcon fill="gray" width="1.25rem" onClick={toogleModal} />
