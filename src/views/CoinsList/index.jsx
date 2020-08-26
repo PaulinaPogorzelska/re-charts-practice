@@ -27,7 +27,6 @@ const useModal = () => {
 };
 
 const ShareCoinPost = ({ toogleModal }) => {
-  window.analytics.track("Share");
   if (navigator.share) {
     return (
       <ShareIcon
@@ -39,7 +38,10 @@ const ShareCoinPost = ({ toogleModal }) => {
               text: "Hi. Check out my fav top coin !",
               url: "https://top-coins-paulina-pogorzelska.netlify.app/",
             })
-            .then(() => console.log("Successful share"))
+            .then(() => {
+              console.log("Successful share");
+              window.analytics.track(" Successfull Share");
+            })
             .catch((error) => console.log("Error sharing", error));
         }}
       />
